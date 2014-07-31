@@ -1,0 +1,24 @@
+{
+  "name": "ers",
+  "version": "0.0.1",
+  "description": "A lightweight set of error utilities for node.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/taoyuan/ers.git"
+  },
+  "keywords": [
+    "error",
+    "errors",
+    "err"
+  ],
+  "author": "Tao Yuan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/taoyuan/ers/issues"
+  },
+  "homepage": "https://github.com/taoyuan/ers"
+}
