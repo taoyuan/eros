@@ -20,5 +20,9 @@
   "bugs": {
     "url": "https://github.com/taoyuan/ers/issues"
   },
-  "homepage": "https://github.com/taoyuan/ers"
+  "homepage": "https://github.com/taoyuan/ers",
+  "devDependencies": {
+    "chai": "^1.9.1",
+    "mocha": "^1.21.3"
+  }
 }
