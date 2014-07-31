@@ -4,7 +4,7 @@ var ers = require('..');
 var http = require('http');
 var t = require('chai').assert;
 
-describe('ers export structure', function() {
+describe('eros export structure', function() {
     it('should contain find() method', function() {
         t.typeOf(ers, 'object');
         t.property(ers, 'find');
@@ -36,7 +36,7 @@ var fatalError = new FatalError();
 var fatalDBError = new FatalDBError();
 var fatalDBTransError = new FatalDBTransactionError();
 
-describe('ers inheritance', function() {
+describe('eros inheritance', function() {
 
     it('FatalError extends Error', function() {
         t.equal(ers.FatalError, FatalError);
@@ -88,7 +88,7 @@ describe('ers.find()', function() {
     });
 });
 
-describe('ers unique error code generation', function() {
+describe('eros unique error code generation', function() {
 
     it('should construct unique error codes', function() {
         t.notEqual(fatalError.code, fatalDBError.code);

@@ -1,3 +1,3 @@
 "use strict";
 
-module.exports = require('./lib/ers');
+module.exports = require('./lib/eros');

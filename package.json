@@ -1,5 +1,5 @@
 {
-  "name": "ers",
+  "name": "eros",
   "version": "0.0.1",
   "description": "A lightweight set of error utilities for node.js",
   "main": "index.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/taoyuan/ers.git"
+    "url": "https://github.com/taoyuan/eros.git"
   },
   "keywords": [
     "error",
@@ -18,9 +18,9 @@
   "author": "Tao Yuan",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/taoyuan/ers/issues"
+    "url": "https://github.com/taoyuan/eros/issues"
   },
-  "homepage": "https://github.com/taoyuan/ers",
+  "homepage": "https://github.com/taoyuan/eros",
   "devDependencies": {
     "chai": "^1.9.1",
     "mocha": "^1.21.3"
