@@ -1,32 +1,31 @@
 "use strict";
 
-var ers = require('..');
-var http = require('http');
+var eros = require('..');
 var t = require('chai').assert;
 
 describe('eros export structure', function() {
     it('should contain find() method', function() {
-        t.typeOf(ers, 'object');
-        t.property(ers, 'find');
-        t.isFunction(ers.find, 'function');
+        t.typeOf(eros, 'object');
+        t.property(eros, 'find');
+        t.isFunction(eros.find, 'function');
     });
 
     it('should contain a construct method', function() {
-        t.isFunction(ers.construct, 'function');
+        t.isFunction(eros.construct, 'function');
     });
 
 });
 
-var FatalError = ers.construct({
+var FatalError = eros.construct({
     name: 'FatalError',
     defaultMessage: 'A Fatal Error Occurred.'
 });
-var FatalDBError = ers.construct({
+var FatalDBError = eros.construct({
     name: 'FatalDBError',
     parent: FatalError,
     defaultMessage: 'A Fatal Database Error Occurred.'
 });
-var FatalDBTransactionError = ers.construct({
+var FatalDBTransactionError = eros.construct({
     name: 'FatalDBTransactionError',
     parent: FatalDBError,
     defaultMessage: 'A Fatal Database Transaction Error Occurred.'
@@ -39,7 +38,7 @@ var fatalDBTransError = new FatalDBTransactionError();
 describe('eros inheritance', function() {
 
     it('FatalError extends Error', function() {
-        t.equal(ers.FatalError, FatalError);
+        t.equal(eros.FatalError, FatalError);
         t.typeOf(FatalError, 'function');
         t.instanceOf(fatalError, Error);
         t.ok(fatalError.code > 599);
@@ -48,7 +47,7 @@ describe('eros inheritance', function() {
     });
 
     it('FatalDBError extends FatalError', function() {
-        t.equal(ers.FatalDBError, FatalDBError);
+        t.equal(eros.FatalDBError, FatalDBError);
         t.typeOf(FatalDBError, 'function');
         t.instanceOf(fatalDBError, FatalError);
         t.notInstanceOf(fatalDBError, FatalDBTransactionError);
@@ -59,7 +58,7 @@ describe('eros inheritance', function() {
     });
 
     it('FatalDBTransactionError extends FatalDBError', function() {
-        t.equal(ers.FatalDBTransactionError, FatalDBTransactionError);
+        t.equal(eros.FatalDBTransactionError, FatalDBTransactionError);
         t.typeOf(FatalDBTransactionError, 'function');
         t.instanceOf(fatalDBTransError, FatalDBError);
         t.ok(fatalDBTransError.code > 599);
@@ -69,22 +68,22 @@ describe('eros inheritance', function() {
     });
 });
 
-describe('ers.find()', function() {
+describe('eros.find()', function() {
 
     it('should find existing error by code', function() {
-        t.equal(ers.find(fatalDBError.code), FatalDBError);
+        t.equal(eros.find(fatalDBError.code), FatalDBError);
     });
 
     it('should find existing error by name', function() {
-        t.equal(ers.find(fatalDBError.name), FatalDBError);
+        t.equal(eros.find(fatalDBError.name), FatalDBError);
     });
 
     it('should not find error for non-existing code', function() {
-        t.notOk(ers.find(9999));
+        t.notOk(eros.find(9999));
     });
 
     it('should not find error for non-existing name', function() {
-        t.notOk(ers.find('FatalDDBError'));
+        t.notOk(eros.find('FatalDDBError'));
     });
 });
 
@@ -96,11 +95,11 @@ describe('eros unique error code generation', function() {
     });
 
     it('should not hammer existing error code', function() {
-        var FileNotFoundError = ers.construct({
+        var FileNotFoundError = eros.construct({
             name: 'FileNotFoundError',
             code: fatalDBTransError.code + 1
         });
-        var IOError = ers.construct({
+        var IOError = eros.construct({
             name: 'IOError'
         });
 
@@ -114,7 +113,7 @@ describe('eros unique error code generation', function() {
 
 describe('default error message handling', function() {
 
-    var FileEncodingError = ers.construct({
+    var FileEncodingError = eros.construct({
         name: 'FileEncodingError',
         defaultMessage: 'File encoding is invalid and cannot be read.'
     });
@@ -131,7 +130,7 @@ describe('default error message handling', function() {
 });
 
 describe('scoped creation', function() {
-    var MalformedInputError = ers.construct({
+    var MalformedInputError = eros.construct({
         name: 'MalformedInputError',
         scope: exports
     });
@@ -142,36 +141,36 @@ describe('scoped creation', function() {
     });
 
     it('should find error in exports', function() {
-        t.equal(ers.find('MalformedInputError'), MalformedInputError);
+        t.equal(eros.find('MalformedInputError'), MalformedInputError);
         var err = new MalformedInputError();
-        t.equal(ers.find(err.code), MalformedInputError);
+        t.equal(eros.find(err.code), MalformedInputError);
     });
 });
 
-describe('ers.stacks()', function() {
-    var err = new ers.EntityTooLargeError();
+describe('eros.stacks()', function() {
+    var err = new eros.EntityTooLargeError();
 
     it('should enable stack traces', function() {
-        ers.stacks(true);
+        eros.stacks(true);
         t.include(err.toString(), err.stack);
     });
 
     it('should return current value of stacks', function() {
-        t.equal(ers.stacks(), true);
+        t.equal(eros.stacks(), true);
     });
 
     it('should disable stack traces', function() {
-        ers.stacks(false);
+        eros.stacks(false);
         t.notInclude(err.toString(), err.stack);
     });
 
     it('should return current value of stacks', function() {
-        t.equal(ers.stacks(), false);
+        t.equal(eros.stacks(), false);
     });
 });
 
 describe('options style constructor', function() {
-    var IdentifiableError = ers.construct('IdentifiableError'),
+    var IdentifiableError = eros.construct('IdentifiableError'),
         err = new IdentifiableError({message: 'Error with ref ID',
             status: 501, refID: 'a1b2c3'});
 
@@ -209,7 +208,7 @@ describe('options style constructor', function() {
 });
 
 describe('status code override', function() {
-    var CustomHttpError = ers.construct({name: 'CustomHttpError', status: 409}),
+    var CustomHttpError = eros.construct({name: 'CustomHttpError', status: 409}),
         err = new CustomHttpError();
 
     it('should have status of 409', function() {
@@ -222,5 +221,35 @@ describe('status code override', function() {
 
     it('should allow overriding in constructor', function() {
         t.equal(new CustomHttpError({status:411}).status, 411);
+    });
+});
+
+describe('#create', function () {
+
+    it('does not sets null message', function (done) {
+        var error = eros.unauthorized(null);
+        t.notOk(error.message);
+        done();
+    });
+
+    it('sets message and data', function (done) {
+
+        var error = eros.badRequest('Missing data', { type: 'user' });
+        t.equal(error.data.type, 'user');
+        t.equal(error.message, 'Missing data');
+        done();
+    });
+});
+
+describe('#isError', function () {
+
+    it('returns true for Boom object', function (done) {
+        t.ok(eros.isError(eros.badRequest()));
+        done();
+    });
+
+    it('returns false for Error object', function (done) {
+        t.notOk(eros.isError(new Error()));
+        done();
     });
 });
