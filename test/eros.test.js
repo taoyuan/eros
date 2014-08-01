@@ -10,22 +10,22 @@ describe('eros export structure', function() {
         t.isFunction(eros.find, 'function');
     });
 
-    it('should contain a construct method', function() {
-        t.isFunction(eros.construct, 'function');
+    it('should contain a define method', function() {
+        t.isFunction(eros.define, 'function');
     });
 
 });
 
-var FatalError = eros.construct({
+var FatalError = eros.define({
     name: 'FatalError',
     defaultMessage: 'A Fatal Error Occurred.'
 });
-var FatalDBError = eros.construct({
+var FatalDBError = eros.define({
     name: 'FatalDBError',
     parent: FatalError,
     defaultMessage: 'A Fatal Database Error Occurred.'
 });
-var FatalDBTransactionError = eros.construct({
+var FatalDBTransactionError = eros.define({
     name: 'FatalDBTransactionError',
     parent: FatalDBError,
     defaultMessage: 'A Fatal Database Transaction Error Occurred.'
@@ -89,17 +89,17 @@ describe('eros.find()', function() {
 
 describe('eros unique error code generation', function() {
 
-    it('should construct unique error codes', function() {
+    it('should define unique error codes', function() {
         t.notEqual(fatalError.code, fatalDBError.code);
         t.notEqual(fatalDBError.code, fatalDBTransError.code);
     });
 
     it('should not hammer existing error code', function() {
-        var FileNotFoundError = eros.construct({
+        var FileNotFoundError = eros.define({
             name: 'FileNotFoundError',
             code: fatalDBTransError.code + 1
         });
-        var IOError = eros.construct({
+        var IOError = eros.define({
             name: 'IOError'
         });
 
@@ -113,7 +113,7 @@ describe('eros unique error code generation', function() {
 
 describe('default error message handling', function() {
 
-    var FileEncodingError = eros.construct({
+    var FileEncodingError = eros.define({
         name: 'FileEncodingError',
         defaultMessage: 'File encoding is invalid and cannot be read.'
     });
@@ -130,7 +130,7 @@ describe('default error message handling', function() {
 });
 
 describe('scoped creation', function() {
-    var MalformedInputError = eros.construct({
+    var MalformedInputError = eros.define({
         name: 'MalformedInputError',
         scope: exports
     });
@@ -170,7 +170,7 @@ describe('eros.stacks()', function() {
 });
 
 describe('options style constructor', function() {
-    var IdentifiableError = eros.construct('IdentifiableError'),
+    var IdentifiableError = eros.define('IdentifiableError'),
         err = new IdentifiableError({message: 'Error with ref ID',
             status: 501, refID: 'a1b2c3'});
 
@@ -208,7 +208,7 @@ describe('options style constructor', function() {
 });
 
 describe('status code override', function() {
-    var CustomHttpError = eros.construct({name: 'CustomHttpError', status: 409}),
+    var CustomHttpError = eros.define({name: 'CustomHttpError', status: 409}),
         err = new CustomHttpError();
 
     it('should have status of 409', function() {
