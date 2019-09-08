@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/taoyuan/eros",
   "devDependencies": {
-    "chai": "^1.9.1",
-    "mocha": "^1.21.3"
+    "chai": "^4.2.0",
+    "mocha": "^6.2.0"
   }
 }
